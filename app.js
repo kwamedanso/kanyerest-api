@@ -1,8 +1,11 @@
 const express = require("express");
-const axios = require("axios")
+const axios = require("axios");
+const bodyParser = require("body-parser")
 const app = express();
 
+
 const url = "https://api.kanye.rest/"
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get("/", (req, res) => {
 
@@ -22,6 +25,19 @@ app.get("/quote", (req, res) => {
     }
 
     fetchQuote();
+})
+
+app.get("/signup", (req, res) => {
+    res.sendFile(__dirname + "/signup.html")
+})
+
+
+app.post("/signup", (req, res) => {
+    const { fName, lName, email } = req.body;
+    res.write(`<p>First Name: ${fName}</p>`)
+    res.write(`<p>Last Name: ${lName}</p>`)
+    res.write(`<p>Email: ${email}</p>`)
+    res.send();
 })
 
 app.listen(3000, () => {
